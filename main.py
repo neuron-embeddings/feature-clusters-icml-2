@@ -4,6 +4,8 @@ import torch
 import random
 import uuid
 import sqlite3
+import gzip
+import shutil
 
 import numpy as np
 
@@ -43,8 +45,16 @@ with open("README.md") as ifh:
 
 # ============== UTILS ==============
 
+def decompress_gzip(file_path, output_path):
+    with gzip.open(file_path, 'rb') as f_in:
+        with open(output_path, 'wb') as f_out:
+            shutil.copyfileobj(f_in, f_out)
+
+
 @st.cache_resource
 def load():
+    db_path = f"{model_path}/data.db"
+    decompress_gzip(f"{db_path}.gz", db_path)
     conn = sqlite3.connect(f"{model_path}/data.db", check_same_thread=False)
     c = conn.cursor()
     return c
