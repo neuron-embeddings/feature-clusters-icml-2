@@ -1,0 +1,5 @@
+streamlit
+torch~=2.2.0
+st-annotated-text
+streamlit-extras
+numpy~=1.26.4
