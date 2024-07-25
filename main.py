@@ -285,23 +285,30 @@ with explore_tab:
     with col1:
         layer = st.number_input(
             f"Select Layer (0 to {layers - 1})", min_value=0, max_value=layers - 1, value=st.session_state['layer'],
-            key='layer_input', on_change=update_values, kwargs={'new_layer': st.session_state['layer']}
+            key='layer_input'
         )
     with col2:
         neuron = st.number_input(
             f"Select Neuron (0 to {neurons - 1})", min_value=0, max_value=neurons - 1, value=st.session_state['neuron'],
-            key='neuron_input', on_change=update_values, kwargs={'new_neuron': st.session_state['neuron']}
+            key='neuron_input'
         )
 
-    width_1 = 0.13
-    col1, col2 = st.columns([width_1, 1 - width_1])
+    width_1 = 0.075
+    width_2 = 0.15
+    col1, col2, col3 = st.columns([width_1, width_2, 1 - width_1 - width_2])
 
     with col1:
-        lucky = st.button("I'm feeling lucky", help="Visit a random neuron")
+        find = st.button("Find", help="Visit the selected neuron")
     with col2:
+        lucky = st.button("I'm feeling lucky", help="Visit a random neuron")
+    with col3:
         backtrack = st.button("Backtrack", help="Go back to the last visited neuron")
 
     show_importance = st.toggle("Show Token Importance", help="View the importance of each token for neuron activation on the max activating token")
+
+    if find:
+        update_values()
+        st.rerun()
 
     if lucky:
         layer = random.randint(0, layers - 1)
